@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Leaflet – Hesse Map</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<!-- PapaParse for CSV -->
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+
+<style>
+    html, body { height: 100%; margin: 0; }
+    #map { height: 100%; width: 100%; }
+
+    .legend {
+        background: white;
+        padding: 8px 10px;
+        font-size: 14px;
+        line-height: 18px;
+        color: #333;
+        border-radius: 4px;
+    }
+    .legend i {
+        width: 16px;
+        height: 16px;
+        float: left;
+        margin-right: 6px;
+        opacity: 0.9;
+    }
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+/* =====================================================
+   BASE MAPS
+===================================================== */
+const openTopoMap = L.tileLayer(
+    'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+    { attribution: '© OpenTopoMap contributors' }
+);
+
+const esriSatellite = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    { attribution: 'Tiles © Esri' }
+);
+
+/* =====================================================
+   MAP INITIALIZATION (Hesse)
+===================================================== */
+const map = L.map('map', {
+    center: [50.6, 9.0],
+    zoom: 8,
+    layers: [openTopoMap]
+});
+
+/* =====================================================
+   VOGELSCHUTZGEBIETE LAYER (GeoJSON from ArcGIS REST)
+===================================================== */
+const vogelschutzStyle = {
+    color: '#ffa500',
+    weight: 2,
+    fillColor: '#ffa500',
+    fillOpacity: 0.4
+};
+
+const vogelschutzHoverStyle = {
+    weight: 4
+};
+
+// GeoJSON Layer
+const vogelschutzLayer = L.geoJSON(null, {
+    style: vogelschutzStyle,
+    onEachFeature: function(feature, layer) {
+
+        // Hover popup
+        layer.on({
+            mouseover: function(e) {
+                layer.setStyle(vogelschutzHoverStyle);
+                layer.bindPopup(`<b>Vogelschutzgebiet:</b><br>${feature.properties.NAME}`).openPopup();
+                layer.bringToFront();
+            },
+            mouseout: function(e) {
+                vogelschutzLayer.resetStyle(layer);
+                layer.closePopup();
+            }
+        });
+    }
+});
+
+// Load GeoJSON from ArcGIS REST
+const vogelschutzUrl =
+    "https://geodienste-umwelt.hessen.de/arcgis/rest/services/inspire/schutzgebiete/MapServer/0/query?" +
+    "where=1=1&outFields=*&f=geojson";
+
+fetch(vogelschutzUrl)
+    .then(res => res.json())
+    .then(data => vogelschutzLayer.addData(data))
+    .catch(err => console.error("Vogelschutzgebiete load error:", err));
+
+/* =====================================================
+   POINT LAYER FROM CSV (X/Y, EPSG:4326)
+===================================================== */
+const audioRecorderLayer = L.geoJSON(null, {
+    pointToLayer: function(feature, latlng) {
+        return L.circleMarker(latlng, {
+            radius: 5,
+            color: '#c71585',
+            fillColor: '#c71585',
+            fillOpacity: 0.8
+        });
+    },
+    onEachFeature: function(feature, layer) {
+        if (feature.properties && feature.properties.ID_PLACE) {
+            layer.bindPopup(`<b>ID_PLACE:</b> ${feature.properties.ID_PLACE}`);
+        }
+    }
+});
+
+// Load CSV and convert to GeoJSON
+Papa.parse('zentroide_ornitho_raster_epsg4326_65Stk.csv', {
+    download: true,
+    header: true,
+    dynamicTyping: true,
+    complete: function(results) {
+        const geojson = {
+            type: 'FeatureCollection',
+            features: []
+        };
+
+        results.data.forEach(row => {
+            if (row.X !== undefined && row.Y !== undefined) {
+                geojson.features.push({
+                    type: 'Feature',
+                    geometry: { type: 'Point', coordinates: [row.X, row.Y] },
+                    properties: row
+                });
+            }
+        });
+
+        audioRecorderLayer.addData(geojson);
+    }
+});
+
+/* =====================================================
+   LAYER CONTROL (TOP LEFT)
+===================================================== */
+const baseMaps = {
+    "OpenTopoMap": openTopoMap,
+    "ESRI Satellite": esriSatellite
+};
+
+const overlayMaps = {
+    "Vogelschutzgebiete": vogelschutzLayer,
+    "Audiorecorder trackIT 65 Stk.": audioRecorderLayer
+};
+
+L.control.layers(baseMaps, overlayMaps, { position: 'topleft', collapsed: false }).addTo(map);
+
+/* =====================================================
+   LEGEND (TOP LEFT)
+===================================================== */
+const legend = L.control({ position: 'topleft' });
+legend.onAdd = function() {
+    const div = L.DomUtil.create('div', 'legend');
+    div.innerHTML += '<b>Legend</b><br><br>';
+    div.innerHTML += '<i style="background:#7CFC00; border:2px solid #006400;"></i>Vogelschutzgebiete<br>';
+    div.innerHTML += '<i style="background:pink; border-radius:50%;"></i>Audiorecorder trackIT 65 Stk.';
+    return div;
+};
+legend.addTo(map);
+</script>
+</body>
+</html>
