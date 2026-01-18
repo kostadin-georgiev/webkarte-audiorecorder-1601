@@ -172,8 +172,8 @@ const legend = L.control({ position: 'topleft' });
 legend.onAdd = function() {
     const div = L.DomUtil.create('div', 'legend');
     div.innerHTML += '<b>Legend</b><br><br>';
-    div.innerHTML += '<i style="background:#ffa500; border:2px solid #006400;"></i>Vogelschutzgebiete<br>';
-    div.innerHTML += '<i style="background:#c71585; border-radius:50%;"></i>Audiorecorder trackIT 65 Stk.';
+    div.innerHTML += '<i style="background:#ffa500; border:1px solid #ffa500;"></i>Vogelschutzgebiete<br>';
+    div.innerHTML += '<i style="background:#c71585; border-radius:50%;"></i>Audiorecorder';
     return div;
 };
 legend.addTo(map);
