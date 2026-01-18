@@ -7,7 +7,13 @@
 
 <!-- Leaflet CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-
+    
+<!-- Leaflet Locate Control CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet.locatecontrol@0.77.0/dist/L.Control.Locate.min.css" />
+    
+<!-- Leaflet Locate Control JS -->
+<script src="https://unpkg.com/leaflet.locatecontrol@0.77.0/dist/L.Control.Locate.min.js"></script>
+    
 <!-- PapaParse for CSV -->
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
 
@@ -62,6 +68,17 @@ const map = L.map('map', {
     layers: [openTopoMap]
 });
 
+// Add GPS locate control
+L.control.locate({
+    position: 'topleft',      // top-left corner
+    strings: {
+        title: "Show my location"
+    },
+    flyTo: true,              // zoom to location when found
+    keepCurrentZoomLevel: false,
+    showPopup: true           // show popup at user's location
+}).addTo(map);
+    
 /* =====================================================
    VOGELSCHUTZGEBIETE LAYER (GeoJSON from ArcGIS REST)
 ===================================================== */
