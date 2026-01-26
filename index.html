@@ -30,8 +30,8 @@
         border-radius: 4px;
     }
     .legend i {
-        width: 22px;
-        height: 16px;
+        width: 10px;
+        height: 10px;
         float: left;
         margin-right: 6px;
         opacity: 0.9;
@@ -75,10 +75,10 @@ const map = L.map('map', {
    VOGELSCHUTZGEBIETE LAYER (GeoJSON from ArcGIS REST)
 ===================================================== */
 const vogelschutzStyle = {
-    color: '#ffa500',
-    weight: 1,
-    fillColor: '#ffa500',
-    fillOpacity: 0.3
+    color: '#d3d3d3',
+    weight: 2,
+    fillColor: '#d3d3d3',
+    fillOpacity: 0.6
 };
 
 const vogelschutzHoverStyle = {
@@ -128,16 +128,19 @@ const audioRecorderLayer = L.geoJSON(null, {
             fillOpacity: 0.95
         });
     },
-    onEachFeature: function(feature, layer) {
-        if (feature.properties) {
-            layer.bindPopup(`
+    onEachFeature: function (feature, layer) {
+  if (feature.properties) {
+    layer.bindTooltip(`
             <b>ID_PLACE:</b> ${feature.properties.ID_PLACE}<br>
             <b>Staatswald:</b> ${feature.properties.Staatswald}<br>
-            <b>BETR:</b> ${feature.properties.BETR}<br>
+            <b>BETRNAME:</b> ${feature.properties.BETRNAME}<br>
             <b>ABT:</b> ${feature.properties.ABT}<br>
-            `);
-        }
-    }
+      `,
+      { sticky: true }
+    );
+  }
+}
+
 });
 
 // Load CSV and convert to GeoJSON
@@ -187,8 +190,8 @@ const legend = L.control({ position: 'topleft' });
 legend.onAdd = function() {
     const div = L.DomUtil.create('div', 'legend');
     div.innerHTML += '<b>Legend</b><br><br>';
-    div.innerHTML += '<i style="background:#ffa500; border:0.2px solid #ffa500;"></i>Vogelschutzgebiete<br>';
     div.innerHTML += '<i style="background:#0000ff; border-radius:10%;"></i>Audiorecorder';
+    div.innerHTML += '<i style="background:#d3d3d3; border:0.2px solid #d3d3d3;"></i>Vogelschutzgebiete<br>';
     return div;
 };
 legend.addTo(map);
