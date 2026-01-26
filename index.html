@@ -72,50 +72,6 @@ const map = L.map('map', {
 });
     
 /* =====================================================
-   VOGELSCHUTZGEBIETE LAYER (GeoJSON from ArcGIS REST)
-===================================================== */
-const vogelschutzStyle = {
-    color: '#ffa500',
-    weight: 2,
-    fillColor: '#ffa500',
-    fillOpacity: 0.4
-};
-
-const vogelschutzHoverStyle = {
-    weight: 4
-};
-
-// GeoJSON Layer
-const vogelschutzLayer = L.geoJSON(null, {
-    style: vogelschutzStyle,
-    onEachFeature: function(feature, layer) {
-
-        // Hover popup
-        layer.on({
-            mouseover: function(e) {
-                layer.setStyle(vogelschutzHoverStyle);
-                layer.bindPopup(`<b>Vogelschutzgebiet:</b><br>${feature.properties.NAME}`).openPopup();
-                layer.bringToFront();
-            },
-            mouseout: function(e) {
-                vogelschutzLayer.resetStyle(layer);
-                layer.closePopup();
-            }
-        });
-    }
-});
-
-// Load GeoJSON from ArcGIS REST
-const vogelschutzUrl =
-    "https://geodienste-umwelt.hessen.de/arcgis/rest/services/inspire/schutzgebiete/MapServer/0/query?" +
-    "where=1=1&outFields=*&f=geojson";
-
-fetch(vogelschutzUrl)
-    .then(res => res.json())
-    .then(data => vogelschutzLayer.addData(data))
-    .catch(err => console.error("Vogelschutzgebiete load error:", err));
-
-/* =====================================================
    POINT LAYER FROM CSV (X/Y, EPSG:4326)
 ===================================================== */
 const audioRecorderLayer = L.geoJSON(null, {
@@ -158,6 +114,49 @@ Papa.parse('Audiorecorder_trackIT_VSG_Monitoring_2026-2031_Stand-26012026.csv', 
         audioRecorderLayer.addData(geojson);
     }
 });
+/* =====================================================
+   VOGELSCHUTZGEBIETE LAYER (GeoJSON from ArcGIS REST)
+===================================================== */
+const vogelschutzStyle = {
+    color: '#ffa500',
+    weight: 2,
+    fillColor: '#ffa500',
+    fillOpacity: 0.4
+};
+
+const vogelschutzHoverStyle = {
+    weight: 4
+};
+
+// GeoJSON Layer
+const vogelschutzLayer = L.geoJSON(null, {
+    style: vogelschutzStyle,
+    onEachFeature: function(feature, layer) {
+
+        // Hover popup
+        layer.on({
+            mouseover: function(e) {
+                layer.setStyle(vogelschutzHoverStyle);
+                layer.bindPopup(`<b>Vogelschutzgebiet:</b><br>${feature.properties.NAME}`).openPopup();
+                layer.bringToFront();
+            },
+            mouseout: function(e) {
+                vogelschutzLayer.resetStyle(layer);
+                layer.closePopup();
+            }
+        });
+    }
+});
+
+// Load GeoJSON from ArcGIS REST
+const vogelschutzUrl =
+    "https://geodienste-umwelt.hessen.de/arcgis/rest/services/inspire/schutzgebiete/MapServer/0/query?" +
+    "where=1=1&outFields=*&f=geojson";
+
+fetch(vogelschutzUrl)
+    .then(res => res.json())
+    .then(data => vogelschutzLayer.addData(data))
+    .catch(err => console.error("Vogelschutzgebiete load error:", err));
 
 /* =====================================================
    LAYER CONTROL (TOP LEFT)
