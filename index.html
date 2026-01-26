@@ -24,14 +24,14 @@
     .legend {
         background: white;
         padding: 8px 10px;
-        font-size: 14px;
-        line-height: 18px;
+        font-size: 12px;
+        line-height: 14px;
         color: #333;
         border-radius: 4px;
     }
     .legend i {
-        width: 16px;
-        height: 16px;
+        width: 14px;
+        height: 14px;
         float: left;
         margin-right: 6px;
         opacity: 0.9;
@@ -67,7 +67,7 @@ const esriSatellite = L.tileLayer(
 ===================================================== */
 const map = L.map('map', {
     center: [50.6, 9.0],
-    zoom: 8,
+    zoom: 8.5,
     layers: [openTopoMap]
 });
     
@@ -78,8 +78,8 @@ const audioRecorderLayer = L.geoJSON(null, {
     pointToLayer: function(feature, latlng) {
         return L.circleMarker(latlng, {
             radius: 5,
-            color: '#c71585',
-            fillColor: '#c71585',
+            color: '#4169e1',
+            fillColor: '#4169e1',
             fillOpacity: 0.8
         });
     },
@@ -118,9 +118,9 @@ Papa.parse('Audiorecorder_trackIT_VSG_Monitoring_2026-2031_Stand-26012026.csv', 
    VOGELSCHUTZGEBIETE LAYER (GeoJSON from ArcGIS REST)
 ===================================================== */
 const vogelschutzStyle = {
-    color: '#ffa500',
+    color: '#ff7057',
     weight: 2,
-    fillColor: '#ffa500',
+    fillColor: '#ff7057',
     fillOpacity: 0.4
 };
 
@@ -180,8 +180,8 @@ const legend = L.control({ position: 'topleft' });
 legend.onAdd = function() {
     const div = L.DomUtil.create('div', 'legend');
     div.innerHTML += '<b>Legend</b><br><br>';
-    div.innerHTML += '<i style="background:#ffa500; border:1px solid #ffa500;"></i>Vogelschutzgebiete<br>';
-    div.innerHTML += '<i style="background:#c71585; border-radius:20%;"></i>Audiorecorder';
+    div.innerHTML += '<i style="background:#ff7057; border:1px solid #ffa500;"></i>Vogelschutzgebiete<br>';
+    div.innerHTML += '<i style="background:#4169e1; border-radius:20%;"></i>Audiorecorder';
     return div;
 };
 legend.addTo(map);
