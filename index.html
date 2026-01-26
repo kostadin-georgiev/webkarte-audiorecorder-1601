@@ -25,16 +25,16 @@
         background: white;
         padding: 8px 10px;
         font-size: 12px;
-        line-height: 14px;
+        line-height: 16px;
         color: #333;
         border-radius: 4px;
     }
     .legend i {
-        width: 14px;
-        height: 14px;
+        width: 16px;
+        height: 16px;
         float: left;
         margin-right: 6px;
-        opacity: 0.9;
+        opacity: 0.5;
     }
 </style>
 </head>
@@ -72,60 +72,17 @@ const map = L.map('map', {
 });
     
 /* =====================================================
-   POINT LAYER FROM CSV (X/Y, EPSG:4326)
-===================================================== */
-const audioRecorderLayer = L.geoJSON(null, {
-    pointToLayer: function(feature, latlng) {
-        return L.circleMarker(latlng, {
-            radius: 5,
-            color: '#4169e1',
-            fillColor: '#4169e1',
-            fillOpacity: 0.8
-        });
-    },
-    onEachFeature: function(feature, layer) {
-        if (feature.properties && feature.properties.ID_PLACE) {
-            layer.bindPopup(`<b>ID_PLACE:</b> ${feature.properties.ID_PLACE}`);
-        }
-    }
-});
-
-// Load CSV and convert to GeoJSON
-Papa.parse('Audiorecorder_trackIT_VSG_Monitoring_2026-2031_Stand-26012026.csv', {
-    download: true,
-    header: true,
-    dynamicTyping: true,
-    complete: function(results) {
-        const geojson = {
-            type: 'FeatureCollection',
-            features: []
-        };
-
-        results.data.forEach(row => {
-            if (row.X !== undefined && row.Y !== undefined) {
-                geojson.features.push({
-                    type: 'Feature',
-                    geometry: { type: 'Point', coordinates: [row.X, row.Y] },
-                    properties: row
-                });
-            }
-        });
-
-        audioRecorderLayer.addData(geojson);
-    }
-});
-/* =====================================================
    VOGELSCHUTZGEBIETE LAYER (GeoJSON from ArcGIS REST)
 ===================================================== */
 const vogelschutzStyle = {
-    color: '#ff7057',
-    weight: 2,
-    fillColor: '#ff7057',
-    fillOpacity: 0.4
+    color: '#ffa500',
+    weight: 1,
+    fillColor: '#ffa500',
+    fillOpacity: 0.3
 };
 
 const vogelschutzHoverStyle = {
-    weight: 4
+    weight: 3
 };
 
 // GeoJSON Layer
@@ -159,6 +116,50 @@ fetch(vogelschutzUrl)
     .catch(err => console.error("Vogelschutzgebiete load error:", err));
 
 /* =====================================================
+   POINT LAYER FROM CSV (X/Y, EPSG:4326)
+===================================================== */
+const audioRecorderLayer = L.geoJSON(null, {
+    pointToLayer: function(feature, latlng) {
+        return L.circleMarker(latlng, {
+            radius: 5,
+            color: '#4169e1',
+            fillColor: '#4169e1',
+            fillOpacity: 0.9
+        });
+    },
+    onEachFeature: function(feature, layer) {
+        if (feature.properties && feature.properties.ID_PLACE) {
+            layer.bindPopup(`<b>ID_PLACE:</b> ${feature.properties.ID_PLACE}`);
+        }
+    }
+});
+
+// Load CSV and convert to GeoJSON
+Papa.parse('Audiorecorder_trackIT_VSG_Monitoring_2026-2031_Stand-26012026.csv', {
+    download: true,
+    header: true,
+    dynamicTyping: true,
+    complete: function(results) {
+        const geojson = {
+            type: 'FeatureCollection',
+            features: []
+        };
+
+        results.data.forEach(row => {
+            if (row.X !== undefined && row.Y !== undefined) {
+                geojson.features.push({
+                    type: 'Feature',
+                    geometry: { type: 'Point', coordinates: [row.X, row.Y] },
+                    properties: row
+                });
+            }
+        });
+
+        audioRecorderLayer.addData(geojson);
+    }
+});
+
+/* =====================================================
    LAYER CONTROL (TOP LEFT)
 ===================================================== */
 const baseMaps = {
@@ -180,7 +181,7 @@ const legend = L.control({ position: 'topleft' });
 legend.onAdd = function() {
     const div = L.DomUtil.create('div', 'legend');
     div.innerHTML += '<b>Legend</b><br><br>';
-    div.innerHTML += '<i style="background:#ff7057; border:1px solid #ffa500;"></i>Vogelschutzgebiete<br>';
+    div.innerHTML += '<i style="background:#ffa500; border:0.2px solid #ffa500;"></i>Vogelschutzgebiete<br>';
     div.innerHTML += '<i style="background:#4169e1; border-radius:20%;"></i>Audiorecorder';
     return div;
 };
@@ -197,6 +198,15 @@ L.control.locate({
     showPopup: true,
     locateOptions: { enableHighAccuracy: true }
 }).addTo(map);
+
+// =========================
+  // Scale bar (bottom-left)
+  // =========================
+  L.control.scale({
+    position: "bottomleft",
+    metric: true,
+    imperial: false
+  }).addTo(map);
 
 </script>
 </body>
