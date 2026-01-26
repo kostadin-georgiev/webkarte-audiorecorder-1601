@@ -30,11 +30,11 @@
         border-radius: 4px;
     }
     .legend i {
-        width: 10px;
-        height: 10px;
+        width: 14px;
+        height: 14px;
         float: left;
         margin-right: 6px;
-        opacity: 0.9;
+        opacity: 0.95;
     }
 </style>
 </head>
@@ -54,12 +54,18 @@
 ===================================================== */
 const openTopoMap = L.tileLayer(
     'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-    { attribution: '© OpenTopoMap contributors' }
+    { 
+    attribution: '© OpenTopoMap contributors',
+    opacity: 0.6   // 0 = transparent, 1 = solid
+        }
 );
 
 const esriSatellite = L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    { attribution: 'Tiles © Esri' }
+    { 
+    attribution: 'Tiles © Esri',
+    opacity: 0.6   // 0 = transparent, 1 = solid
+    }
 );
 
 /* =====================================================
@@ -75,9 +81,9 @@ const map = L.map('map', {
    VOGELSCHUTZGEBIETE LAYER (GeoJSON from ArcGIS REST)
 ===================================================== */
 const vogelschutzStyle = {
-    color: '#d3d3d3',
+    color: '#d2b48c',
     weight: 2,
-    fillColor: '#d3d3d3',
+    fillColor: '#d2b48c',
     fillOpacity: 0.6
 };
 
@@ -191,7 +197,7 @@ legend.onAdd = function() {
     const div = L.DomUtil.create('div', 'legend');
     div.innerHTML += '<b>Legend</b><br><br>';
     div.innerHTML += '<i style="background:#0000ff; border-radius:10%;"></i>Audiorecorder';
-    div.innerHTML += '<i style="background:#d3d3d3; border:0.2px solid #d3d3d3;"></i>Vogelschutzgebiete<br>';
+    div.innerHTML += '<i style="background:#d2b48c; border:0.2px solid #d2b48c;"></i>Vogelschutzgebiete<br>';
     return div;
 };
 legend.addTo(map);
