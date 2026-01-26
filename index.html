@@ -81,15 +81,15 @@ const map = L.map('map', {
    VOGELSCHUTZGEBIETE LAYER (GeoJSON from ArcGIS REST)
 ===================================================== */
 const vogelschutzStyle = {
-    color: '#d2b48c',
-    weight: 2,
-    fillColor: '#d2b48c',
-    fillOpacity: 0.6
+    color: '#ff8c00',
+    weight: 3,
+    fillColor: '#ff8c00',
+    fillOpacity: 0.3
 };
 
 const vogelschutzHoverStyle = {
     color: '#f0ffff',
-    weight: 2
+    weight: 3
 };
 
 // GeoJSON Layer
@@ -128,10 +128,10 @@ fetch(vogelschutzUrl)
 const audioRecorderLayer = L.geoJSON(null, {
     pointToLayer: function(feature, latlng) {
         return L.circleMarker(latlng, {
-            radius: 4,
+            radius: 6,
             color: '#0000ff',
             fillColor: '#0000ff',
-            fillOpacity: 0.95
+            fillOpacity: 0.5
         });
     },
     onEachFeature: function (feature, layer) {
@@ -187,11 +187,14 @@ const overlayMaps = {
     "Vogelschutzgebiete": vogelschutzLayer    
 };
 
-L.control.layers(baseMaps, overlayMaps, { position: 'topleft', collapsed: false }).addTo(map);
+L.control.layers(baseMaps, overlayMaps, { 
+    position: 'topleft', 
+    collapsed: true 
+}).addTo(map);
 
 /* =====================================================
    LEGEND (TOP LEFT)
-===================================================== */
+
 const legend = L.control({ position: 'topleft' });
 legend.onAdd = function() {
     const div = L.DomUtil.create('div', 'legend');
@@ -201,7 +204,7 @@ legend.onAdd = function() {
     return div;
 };
 legend.addTo(map);
-
+===================================================== */
 /* =====================================================
    GPS CONTROL FOR MOBILE
 ===================================================== */
