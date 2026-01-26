@@ -23,18 +23,18 @@
 
     .legend {
         background: white;
-        padding: 8px 10px;
+        padding: 10px 14px;
         font-size: 12px;
         line-height: 16px;
         color: #333;
         border-radius: 4px;
     }
     .legend i {
-        width: 16px;
+        width: 22px;
         height: 16px;
         float: left;
         margin-right: 6px;
-        opacity: 0.5;
+        opacity: 0.9;
     }
 </style>
 </head>
@@ -82,7 +82,8 @@ const vogelschutzStyle = {
 };
 
 const vogelschutzHoverStyle = {
-    weight: 3
+    color: '#f0ffff',
+    weight: 2
 };
 
 // GeoJSON Layer
@@ -121,15 +122,20 @@ fetch(vogelschutzUrl)
 const audioRecorderLayer = L.geoJSON(null, {
     pointToLayer: function(feature, latlng) {
         return L.circleMarker(latlng, {
-            radius: 5,
-            color: '#4169e1',
-            fillColor: '#4169e1',
-            fillOpacity: 0.9
+            radius: 4,
+            color: '#0000ff',
+            fillColor: '#0000ff',
+            fillOpacity: 0.95
         });
     },
     onEachFeature: function(feature, layer) {
-        if (feature.properties && feature.properties.ID_PLACE) {
-            layer.bindPopup(`<b>ID_PLACE:</b> ${feature.properties.ID_PLACE}`);
+        if (feature.properties) {
+            layer.bindPopup(`
+            <b>ID_PLACE:</b> ${feature.properties.ID_PLACE}<br>
+            <b>Staatswald:</b> ${feature.properties.Staatswald}<br>
+            <b>BETR:</b> ${feature.properties.BETR}<br>
+            <b>ABT:</b> ${feature.properties.ABT}<br>
+            `);
         }
     }
 });
@@ -182,7 +188,7 @@ legend.onAdd = function() {
     const div = L.DomUtil.create('div', 'legend');
     div.innerHTML += '<b>Legend</b><br><br>';
     div.innerHTML += '<i style="background:#ffa500; border:0.2px solid #ffa500;"></i>Vogelschutzgebiete<br>';
-    div.innerHTML += '<i style="background:#4169e1; border-radius:20%;"></i>Audiorecorder';
+    div.innerHTML += '<i style="background:#0000ff; border-radius:10%;"></i>Audiorecorder';
     return div;
 };
 legend.addTo(map);
