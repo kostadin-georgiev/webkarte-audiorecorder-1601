@@ -123,9 +123,9 @@ fetch(vogelschutzUrl)
     .catch(err => console.error("Vogelschutzgebiete load error:", err));
 
 /* =====================================================
-   POINT LAYER FROM CSV (X/Y, EPSG:4326)
+   trackIT 65  Stk POINT LAYER FROM CSV (X/Y, EPSG:4326)
 ===================================================== */
-const audioRecorderLayer = L.geoJSON(null, {
+const audioRecorderLayer65 = L.geoJSON(null, {
     pointToLayer: function(feature, latlng) {
         return L.circleMarker(latlng, {
             radius: 6,
@@ -170,10 +170,60 @@ Papa.parse('Audiorecorder_trackIT_VSG_Monitoring_2026-2031_Stand-26012026.csv', 
             }
         });
 
+        audioRecorderLayer65.addData(geojson);
+    }
+});
+/* =====================================================
+   VSW 129  Stk POINT LAYER FROM CSV (X/Y, EPSG:4326)
+===================================================== */
+const audioRecorderLayer = L.geoJSON(null, {
+    pointToLayer: function(feature, latlng) {
+        return L.circleMarker(latlng, {
+            radius: 4,
+            color: '#00ffff',
+            fillColor: '#00ffff',
+            fillOpacity: 0.9
+        });
+    },
+    onEachFeature: function (feature, layer) {
+  if (feature.properties) {
+    layer.bindTooltip(`
+            <b>ID_PLACE:</b> ${feature.properties.ID_PLACE}<br>
+            <b>Staatswald:</b> ${feature.properties.Staatswald}<br>
+            <b>BETRNAME:</b> ${feature.properties.BETRNAME}<br>
+            <b>ABT:</b> ${feature.properties.ABT}<br>
+      `,
+      { sticky: true }
+    );
+  }
+}
+
+});
+
+// Load CSV and convert to GeoJSON
+Papa.parse('Audiorecorder_VSW_VSG_Monitoring_2026_Stand-26012026.csv', {
+    download: true,
+    header: true,
+    dynamicTyping: true,
+    complete: function(results) {
+        const geojson = {
+            type: 'FeatureCollection',
+            features: []
+        };
+
+        results.data.forEach(row => {
+            if (row.X !== undefined && row.Y !== undefined) {
+                geojson.features.push({
+                    type: 'Feature',
+                    geometry: { type: 'Point', coordinates: [row.X, row.Y] },
+                    properties: row
+                });
+            }
+        });
+
         audioRecorderLayer.addData(geojson);
     }
 });
-
 /* =====================================================
    LAYER CONTROL (TOP LEFT)
 ===================================================== */
@@ -183,8 +233,10 @@ const baseMaps = {
 };
 
 const overlayMaps = {
-    "Audiorecorder trackIT 65 Stk.": audioRecorderLayer,
-    "Vogelschutzgebiete": vogelschutzLayer    
+    "Vogelschutzgebiete": vogelschutzLayer ,
+    "Audiorecorder trackIT 65 Stk.": audioRecorderLayer65,
+    "Audiorecorder VSW 129 Stk.": audioRecorderLayer,
+      
 };
 
 L.control.layers(baseMaps, overlayMaps, { 
