@@ -76,6 +76,15 @@ const map = L.map('map', {
     zoom: 8.5,
     layers: [openTopoMap]
 });
+
+// =========================
+// PANES (z-index control)
+// =========================
+map.createPane("polygonsPane");
+map.getPane("polygonsPane").style.zIndex = 400;
+
+map.createPane("pointsPane");
+map.getPane("pointsPane").style.zIndex = 500;
     
 /* =====================================================
    VOGELSCHUTZGEBIETE LAYER (GeoJSON from ArcGIS REST)
@@ -94,6 +103,7 @@ const vogelschutzHoverStyle = {
 
 // GeoJSON Layer
 const vogelschutzLayer = L.geoJSON(null, {
+    pane: "polygonsPane",   // for the order of appearrence
     style: vogelschutzStyle,
     onEachFeature: function(feature, layer) {
 
@@ -101,8 +111,9 @@ const vogelschutzLayer = L.geoJSON(null, {
         layer.on({
             mouseover: function(e) {
                 layer.setStyle(vogelschutzHoverStyle);
-                layer.bindPopup(`<b>Vogelschutzgebiet:</b><br>${feature.properties.NAME}`).openPopup();
-                layer.bringToFront();
+                layer.bindPopup(`<b>Vogelschutzgebiet:</b><br>${feature.properties.NAME}`
+                ).openPopup();
+               // layer.bringToFront();
             },
             mouseout: function(e) {
                 vogelschutzLayer.resetStyle(layer);
@@ -126,6 +137,7 @@ fetch(vogelschutzUrl)
    trackIT 65  Stk POINT LAYER FROM CSV (X/Y, EPSG:4326)
 ===================================================== */
 const audioRecorderLayer65 = L.geoJSON(null, {
+    pane: "pointsPane",
     pointToLayer: function(feature, latlng) {
         return L.circleMarker(latlng, {
             radius: 6,
@@ -177,6 +189,7 @@ Papa.parse('Audiorecorder_trackIT_VSG_Monitoring_2026-2031_Stand-26012026.csv', 
    VSW 129  Stk POINT LAYER FROM CSV (X/Y, EPSG:4326)
 ===================================================== */
 const audioRecorderLayer = L.geoJSON(null, {
+    pane: "pointsPane",
     pointToLayer: function(feature, latlng) {
         return L.circleMarker(latlng, {
             radius: 5,
