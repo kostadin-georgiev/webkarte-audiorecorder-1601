@@ -108,18 +108,12 @@ const vogelschutzLayer = L.geoJSON(null, {
     style: vogelschutzStyle,
     onEachFeature: function(feature, layer) {
 
-        // Hover popup
-        layer.on({
-            mouseover: function(e) {
-                layer.setStyle(vogelschutzHoverStyle);
-                layer.bindPopup(`<b>Vogelschutzgebiet:</b><br>${feature.properties.NAME}`
-                ).openPopup();
-               // layer.bringToFront();
-            },
-            mouseout: function(e) {
-                vogelschutzLayer.resetStyle(layer);
-                layer.closePopup();
-            }
+        // Add click event for each feature
+        layer.on('click', function (e) {
+            L.popup()
+                .setLatLng(e.latlng)
+                .setContent(`<b>Vogelschutzgebiet:</b><br>${feature.properties.NAME}`)
+                .openOn(map);
         });
     }
 });
