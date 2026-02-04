@@ -145,9 +145,9 @@ const audioRecorderLayer65 = L.geoJSON(null, {
   if (feature.properties) {
     layer.bindTooltip(`
             <b>ID_PLACE:</b> ${feature.properties.ID_PLACE}<br>
-            <b>Staatswald:</b> ${feature.properties.Forstamt}<br>
-            <b>BETRNAME:</b> ${feature.properties.FO_Revier}<br>
-            <b>ABT:</b> ${feature.properties.Staatswald}<br>
+            <b>Forstamt:</b> ${feature.properties.Forstamt}<br>
+            <b>Forstrevier:</b> ${feature.properties.FO_Revier}<br>
+            <b>Staatswald:</b> ${feature.properties.Staatswald}<br>
       `,
       { sticky: true }
     );
@@ -197,9 +197,9 @@ const audioRecorderLayer = L.geoJSON(null, {
   if (feature.properties) {
     layer.bindTooltip(`
             <b>ID_PLACE:</b> ${feature.properties.ID_PLACE}<br>
-            <b>Staatswald:</b> ${feature.properties.Forstamt}<br>
-            <b>BETRNAME:</b> ${feature.properties.FO_Revier}<br>
-            <b>ABT:</b> ${feature.properties.Staatswald}<br>
+            <b>Forstamt:</b> ${feature.properties.Forstamt}<br>
+            <b>Forstrevier:</b> ${feature.properties.FO_Revier}<br>
+            <b>Staatswald:</b> ${feature.properties.Staatswald}<br>
       `,
       { sticky: true }
     );
