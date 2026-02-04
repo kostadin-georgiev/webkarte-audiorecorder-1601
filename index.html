@@ -165,6 +165,7 @@ Papa.parse('Audiorecorder_trackIT_VSG_Monitoring_WGS84_2026_Stand-04022026.csv',
     download: true,
     header: true,
     dynamicTyping: true,
+    encoding: "UTF-8", // WICHTIG für Umlaute
     complete: function(results) {
         const geojson = {
             type: 'FeatureCollection',
@@ -217,6 +218,7 @@ Papa.parse('Audiorecorder_VSW_VSG_Monitoring_WGS84_2026_Stand-04022026.csv', {
     download: true,
     header: true,
     dynamicTyping: true,
+    encoding: "UTF-8", // WICHTIG für Umlaute
     complete: function(results) {
         const geojson = {
             type: 'FeatureCollection',
