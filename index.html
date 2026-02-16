@@ -183,7 +183,7 @@ Papa.parse('Audiorecorder_trackIT_VSG_Monitoring_WGS84_2026_Stand-16022026.csv',
     }
 });
 /* =====================================================
-   VSW 129  Stk POINT LAYER FROM CSV (X/Y, EPSG:4326)
+   VSW 130  Stk POINT LAYER FROM CSV (X/Y, EPSG:4326)
 ===================================================== */
 const audioRecorderLayer = L.geoJSON(null, {
         pointToLayer: function(feature, latlng) {
@@ -245,7 +245,7 @@ const baseMaps = {
 
 const overlayMaps = {
     "Audiorecorder trackIT 65 Stk.": audioRecorderLayer65,
-    "Audiorecorder VSW 129 Stk.": audioRecorderLayer,
+    "Audiorecorder Songmeter/VSW 130 Stk.": audioRecorderLayer,
     "Vogelschutzgebiete": vogelschutzLayer      
 };
 
