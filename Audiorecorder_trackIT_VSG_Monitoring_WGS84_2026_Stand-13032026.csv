@@ -32,7 +32,7 @@
 475094.9629;5519729.261;trackIT;Gruenland;;;6117;4;432009;Prinzenberg bei Darmstadt-Eberstadt;6117-403;;;Streuobstwiesen von Darmstadt-Eberstadt/Prinzenberg und Eichwäld.;6117-308;Darmstadt;153;Mühltal;1118;nein;8.65371;49.82948
 470782.0187;5522461.95;trackIT;Sonstiges;1411013;Ehemaliger August-Euler-Flugplatz von Darmstadt;6117;2;431937;Griesheimer Sand;6117-401;;;Ehemaliger August-Euler-Flugplatz von Darmstadt;6117-304;Darmstadt;158;Griesheim;1118;nein;8.59354;49.85386
 497498.1385;5519278.02;trackIT;Mischwald;;Sandsteinbrüche am Burzelberg bei Frau-;6118;3;531483;Felswände des nördlichen Odenwaldes;6119-402;;;;;Darmstadt;153;Mühltal;1118;nein;8.6964;49.83105
-456691.255;5518489.446;trackIT;Laubwald;1433002;Kühkopf-Knoblochsaue;6116;3;53291;Hessisches Ried mit Kühkopf-Knoblochsaue;6116-450;130;439;Kühkopf-Knoblochsaue;6116-350;Groß-Gerau;174;Kühkopf-Knoblochsaue;1129;ja;8.3977;5520910.088
+456691.255;5518489.446;trackIT;Laubwald;1433002;Kühkopf-Knoblochsaue;6116;3;53291;Hessisches Ried mit Kühkopf-Knoblochsaue;6116-450;130;439;Kühkopf-Knoblochsaue;6116-350;Groß-Gerau;174;Kühkopf-Knoblochsaue;1129;ja;8.3977;49.83907076
 460616.5255;5508494.174;trackIT;Laubwald;1431026;Hammer Aue von Gernsheim und Groß-Rohrheim;6216;4;430186;Rheinauen bei Biblis und Groß-Rohrheim;6216-450;213;91;Hammer-Aue von Gernsheim und Groß-Rohrheim;6216-303;Lampertheim;213;Jägersburg;1150;ja;8.45355;49.72766
 466601.6563;5505687.998;trackIT;Mischwald;;;6217;3;432514;Jägersburger/Gernsheimer Wald;6217-404;213;52;;;Lampertheim;213;Jägersburg;1150;ja;8.53683;49.70278
 478124.394;5497760.014;trackIT;Laubwald;;;6318;3;52960;Felswände des Vorderen Odenwaldes;6318-450;;;;;Lampertheim;215;Heppenheim;1150;nein;8.69707;49.632
@@ -64,3 +64,4 @@
 462761.6961;5598168.636;trackIT;Gruenland;;;5416;4;482361;Weinberg bei Wetzlar;5416-401;;;Weinberg bei Wetzlar;5416-301;Wetzlar;127;Wetzlar-Stoppelberg;1312;nein;8.47455;50.53428
 524980.698;5589274.945;trackIT;Sonstiges;1535005;Ober-Mooser-Teich;5522;1;619392;Vogelsberg;5421-401;;;Vogelsbergteiche und Lüderaue bei Grebenhain;5522-304;Schotten;311;Freiensteinau;1368;nein;9.351898193;50.45494595
 558572.7286;5612262.865;trackIT;Mischwald;;;5324;2;487353;Hessische Rhön;5425-401;672;2697;Vorderrhön;5325-305;Burghaun;342;Hünfeld;1201;ja;9.82923;50.66023
+
